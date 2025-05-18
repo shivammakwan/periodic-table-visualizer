@@ -10,6 +10,14 @@ interface FilterPanelProps {
   onPeriodFilterChange: (period: number) => void;
   selectedBlocks: string[];
   selectedPeriods: number[];
+  selectedStates: string[];
+  onStateFilterChange: (state: string) => void;
+  isNaturalOnly: boolean;
+  onNaturalFilterChange: (isNatural: boolean) => void;
+  selectedMassRange: [number, number] | null;
+  onMassRangeChange: (range: [number, number] | null) => void;
+  selectedDiscoveryPeriod: string | null;
+  onDiscoveryPeriodChange: (period: string | null) => void;
   displayMode?: 'modal' | 'sidebar';
 }
 
@@ -21,9 +29,17 @@ const FilterPanel = ({
   onPeriodFilterChange,
   selectedBlocks,
   selectedPeriods,
+  selectedStates = [],
+  onStateFilterChange = () => {},
+  isNaturalOnly = false,
+  onNaturalFilterChange = () => {},
+  selectedMassRange = null,
+  onMassRangeChange = () => {},
+  selectedDiscoveryPeriod = null,
+  onDiscoveryPeriodChange = () => {},
   displayMode = 'modal',
 }: FilterPanelProps) => {
-  const [activeTab, setActiveTab] = useState<'category' | 'block' | 'period'>('category');
+  const [activeTab, setActiveTab] = useState<'category' | 'block' | 'period' | 'state' | 'other'>('category');
   
   const categoryLabels: Record<ElementCategory, {label: string, emoji: string}> = {
     [ElementCategory.ALKALI_METAL]: {
@@ -70,8 +86,28 @@ const FilterPanel = ({
   
   const blockOptions = ['s', 'p', 'd', 'f'];
   const periodOptions = [1, 2, 3, 4, 5, 6, 7];
+  
+  const stateOptions = [
+    { value: 'solid', label: 'Solid', emoji: '🧱' },
+    { value: 'liquid', label: 'Liquid', emoji: '💧' },
+    { value: 'gas', label: 'Gas', emoji: '💨' },
+  ];
+  
+  const discoveryPeriodOptions = [
+    { value: 'ancient', label: 'Ancient Times', emoji: '🏛️' },
+    { value: 'pre1800', label: 'Pre-1800', emoji: '📜' },
+    { value: '1800s', label: '1800s', emoji: '⚙️' },
+    { value: '1900s', label: '1900s', emoji: '🔬' },
+    { value: '2000s', label: 'Modern Era', emoji: '🚀' },
+  ];
+  
+  const massRangePresets = [
+    { label: 'Light (< 40 u)', value: [0, 40] as [number, number] },
+    { label: 'Medium (40-100 u)', value: [40, 100] as [number, number] },
+    { label: 'Heavy (100-200 u)', value: [100, 200] as [number, number] },
+    { label: 'Very Heavy (> 200 u)', value: [200, 300] as [number, number] },
+  ];
 
-  // If in sidebar mode, show all filter sections at once
   if (displayMode === 'sidebar') {
     return (
       <div className="filter-panel filter-panel-sidebar">
@@ -138,11 +174,93 @@ const FilterPanel = ({
             ))}
           </div>
         </div>
+        
+        <div className="filter-section">
+          <h4 className="filter-section-title">
+            <span className="section-icon state-icon">🔄</span>
+            Physical State
+          </h4>
+          <div className="filter-options">
+            {stateOptions.map(({ value, label, emoji }) => (
+              <label key={value} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectedStates.includes(value)}
+                  onChange={() => onStateFilterChange(value)}
+                />
+                <span className="state-emoji">{emoji}</span>
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <div className="filter-section">
+          <h4 className="filter-section-title">
+            <span className="section-icon discovery-icon">🔍</span>
+            Discovery Period
+          </h4>
+          <div className="filter-options">
+            {discoveryPeriodOptions.map(({ value, label, emoji }) => (
+              <label key={value} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectedDiscoveryPeriod === value}
+                  onChange={() => onDiscoveryPeriodChange(
+                    selectedDiscoveryPeriod === value ? null : value
+                  )}
+                />
+                <span className="discovery-emoji">{emoji}</span>
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <div className="filter-section">
+          <h4 className="filter-section-title">
+            <span className="section-icon mass-icon">⚖️</span>
+            Atomic Mass
+          </h4>
+          <div className="filter-options">
+            {massRangePresets.map(({ label, value }) => (
+              <label key={label} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectedMassRange?.[0] === value[0] && selectedMassRange?.[1] === value[1]}
+                  onChange={() => onMassRangeChange(
+                    selectedMassRange?.[0] === value[0] && selectedMassRange?.[1] === value[1]
+                      ? null
+                      : value
+                  )}
+                />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        
+        <div className="filter-section">
+          <h4 className="filter-section-title">
+            <span className="section-icon natural-icon">🌱</span>
+            Origin
+          </h4>
+          <div className="filter-options">
+            <label className="filter-checkbox">
+              <input
+                type="checkbox"
+                checked={isNaturalOnly}
+                onChange={() => onNaturalFilterChange(!isNaturalOnly)}
+              />
+              <span className="natural-emoji">🌱</span>
+              <span>Natural Elements Only</span>
+            </label>
+          </div>
+        </div>
       </div>
     );
   }
 
-  // Default modal view with tabs
   return (
     <div className="filter-panel">      
       <div className="filter-tabs">
@@ -163,6 +281,18 @@ const FilterPanel = ({
           onClick={() => setActiveTab('period')}
         >
           <span className="tab-icon">🔄</span> By Period
+        </button>
+        <button 
+          className={`filter-tab ${activeTab === 'state' ? 'active' : ''}`}
+          onClick={() => setActiveTab('state')}
+        >
+          <span className="tab-icon">💧</span> By State
+        </button>
+        <button 
+          className={`filter-tab ${activeTab === 'other' ? 'active' : ''}`}
+          onClick={() => setActiveTab('other')}
+        >
+          <span className="tab-icon">🔍</span> More Filters
         </button>
       </div>
       
@@ -216,6 +346,89 @@ const FilterPanel = ({
             </label>
           ))}
         </div>
+      )}
+      
+      {activeTab === 'state' && (
+        <div className="filter-options">
+          {stateOptions.map(({ value, label, emoji }) => (
+            <label key={value} className="filter-checkbox">
+              <input
+                type="checkbox"
+                checked={selectedStates.includes(value)}
+                onChange={() => onStateFilterChange(value)}
+              />
+              <span className="state-emoji">{emoji}</span>
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+      
+      {activeTab === 'other' && (
+        <>
+          <div className="filter-section special-section">
+            <h4 className="special-section-title">
+              <span className="section-icon discovery-icon">🔍</span>
+              Discovery Period
+            </h4>
+            <div className="filter-options">
+              {discoveryPeriodOptions.map(({ value, label, emoji }) => (
+                <label key={value} className="filter-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={selectedDiscoveryPeriod === value}
+                    onChange={() => onDiscoveryPeriodChange(
+                      selectedDiscoveryPeriod === value ? null : value
+                    )}
+                  />
+                  <span className="discovery-emoji">{emoji}</span>
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          
+          <div className="filter-section special-section">
+            <h4 className="special-section-title">
+              <span className="section-icon mass-icon">⚖️</span>
+              Atomic Mass
+            </h4>
+            <div className="filter-options">
+              {massRangePresets.map(({ label, value }) => (
+                <label key={label} className="filter-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={selectedMassRange?.[0] === value[0] && selectedMassRange?.[1] === value[1]}
+                    onChange={() => onMassRangeChange(
+                      selectedMassRange?.[0] === value[0] && selectedMassRange?.[1] === value[1]
+                        ? null
+                        : value
+                    )}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          
+          <div className="filter-section special-section">
+            <h4 className="special-section-title">
+              <span className="section-icon natural-icon">🌱</span>
+              Origin
+            </h4>
+            <div className="filter-options">
+              <label className="filter-checkbox natural-checkbox">
+                <input
+                  type="checkbox"
+                  checked={isNaturalOnly}
+                  onChange={() => onNaturalFilterChange(!isNaturalOnly)}
+                />
+                <span className="natural-emoji">🌱</span>
+                <span>Natural Elements Only</span>
+              </label>
+            </div>
+          </div>
+        </>
       )}
       
       <button className="clear-filters-btn" onClick={onClearFilters}>

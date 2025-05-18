@@ -20,10 +20,14 @@ This application provides a fun and engaging way to explore the chemical element
 
 - **Complete Periodic Table**: All 118 elements with accurate scientific data
 - **Interactive Elements**: Hover over elements to view detailed information
-- **Filtering System**: Filter elements by:
+- **Advanced Filtering System**: Filter elements by:
   - Category (Alkali Metals, Noble Gases, etc.)
   - Block (s, p, d, f)
   - Period (1-7)
+  - Physical State (Solid, Liquid, Gas)
+  - Natural vs. Synthetic Elements
+  - Atomic Mass Range
+  - Discovery Period (Ancient, Pre-1800, 1800s, 1900s, Modern Era)
 - **Responsive Design**: Optimized for desktop and mobile landscape modes
 - **Orientation Helper**: Smart detection prompts users to rotate to landscape mode on mobile
 - **Dark Mode Support**: Automatically switches based on system preferences

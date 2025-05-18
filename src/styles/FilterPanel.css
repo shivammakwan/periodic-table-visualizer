@@ -133,12 +133,26 @@
   justify-content: center;
 }
 
-.category-emoji {
+.category-emoji, .state-emoji, .discovery-emoji, .natural-emoji {
   position: absolute;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* New emoji containers for different filter types */
+.state-emoji, .discovery-emoji, .natural-emoji {
+  position: relative;
+  margin-right: 8px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  border: 1px solid var(--card-border, #333);
 }
 
 .block-label {
@@ -147,6 +161,64 @@
   border-radius: 4px;
   margin-right: 6px;
   font-size: 12px;
+}
+
+/* Special styling for new filter tags */
+.sidebar-filter-tag.state-tag {
+  background-color: rgba(173, 216, 230, 0.3);
+}
+
+.sidebar-filter-tag.natural-tag {
+  background-color: rgba(144, 238, 144, 0.3);
+}
+
+.sidebar-filter-tag.mass-tag {
+  background-color: rgba(255, 165, 0, 0.3);
+}
+
+.sidebar-filter-tag.discovery-tag {
+  background-color: rgba(221, 160, 221, 0.3);
+}
+
+/* Special section in the "More Filters" tab */
+.special-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.special-section-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--primary-color, #FF6B6B);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+  padding-bottom: 5px;
+}
+
+/* Custom styling for the natural checkbox which is wider */
+.natural-checkbox {
+  grid-column: span 2;
+}
+
+/* Icons for new filter types */
+.state-icon {
+  background-color: rgba(173, 216, 230, 0.5);
+}
+
+.discovery-icon {
+  background-color: rgba(221, 160, 221, 0.5);
+}
+
+.mass-icon {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
+.natural-icon {
+  background-color: rgba(144, 238, 144, 0.5);
 }
 
 .clear-filters-btn {
@@ -970,5 +1042,78 @@
     font-size: 12px;
     top: 8px;
     right: 8px;
+  }
+}
+
+/* New dark mode adjustments for new filter elements */
+@media (prefers-color-scheme: dark) {
+  .sidebar-filter-tag.state-tag {
+    background-color: rgba(70, 130, 180, 0.3);
+  }
+  
+  .sidebar-filter-tag.natural-tag {
+    background-color: rgba(0, 128, 0, 0.3);
+  }
+  
+  .sidebar-filter-tag.mass-tag {
+    background-color: rgba(255, 140, 0, 0.3);
+  }
+  
+  .sidebar-filter-tag.discovery-tag {
+    background-color: rgba(186, 85, 211, 0.3);
+  }
+  
+  .special-section {
+    background-color: rgba(30, 30, 45, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .special-section-title {
+    color: var(--accent-color, #FFE66D);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .state-emoji, .discovery-emoji, .natural-emoji {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* New mobile adjustments for new filter elements */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .state-emoji, .discovery-emoji, .natural-emoji {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    margin-right: 6px;
+  }
+  
+  .special-section {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .special-section-title {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+}
+
+@media screen and (max-width: 700px) and (max-height: 400px) and (orientation: landscape) {
+  .state-emoji, .discovery-emoji, .natural-emoji {
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+    margin-right: 5px;
+  }
+  
+  .special-section {
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .special-section-title {
+    font-size: 11px;
+    margin-bottom: 6px;
   }
 } 

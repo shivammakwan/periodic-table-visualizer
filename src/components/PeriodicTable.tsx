@@ -12,6 +12,11 @@ const PeriodicTable = () => {
   >([]);
   const [selectedBlocks, setSelectedBlocks] = useState<string[]>([]);
   const [selectedPeriods, setSelectedPeriods] = useState<number[]>([]);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [isNaturalOnly, setIsNaturalOnly] = useState<boolean>(false);
+  const [selectedMassRange, setSelectedMassRange] = useState<[number, number] | null>(null);
+  const [selectedDiscoveryPeriod, setSelectedDiscoveryPeriod] = useState<string | null>(null);
+  
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
 
@@ -37,10 +42,32 @@ const PeriodicTable = () => {
     );
   };
 
+  const toggleState = (state: string) => {
+    setSelectedStates((prev) =>
+      prev.includes(state) ? prev.filter((s) => s !== state) : [...prev, state]
+    );
+  };
+
+  const toggleNaturalOnly = (isNatural: boolean) => {
+    setIsNaturalOnly(isNatural);
+  };
+
+  const handleMassRangeChange = (range: [number, number] | null) => {
+    setSelectedMassRange(range);
+  };
+
+  const handleDiscoveryPeriodChange = (period: string | null) => {
+    setSelectedDiscoveryPeriod(period);
+  };
+
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedBlocks([]);
     setSelectedPeriods([]);
+    setSelectedStates([]);
+    setIsNaturalOnly(false);
+    setSelectedMassRange(null);
+    setSelectedDiscoveryPeriod(null);
   };
 
   const handleElementClick = (element: Element) => {
@@ -65,6 +92,22 @@ const PeriodicTable = () => {
 
   const removePeriod = (period: number) => {
     setSelectedPeriods((prev) => prev.filter((p) => p !== period));
+  };
+
+  const removeState = (state: string) => {
+    setSelectedStates((prev) => prev.filter((s) => s !== state));
+  };
+
+  const removeNaturalFilter = () => {
+    setIsNaturalOnly(false);
+  };
+
+  const removeMassRangeFilter = () => {
+    setSelectedMassRange(null);
+  };
+
+  const removeDiscoveryPeriodFilter = () => {
+    setSelectedDiscoveryPeriod(null);
   };
 
   const formatCategoryName = (category: ElementCategory): string => {
@@ -104,12 +147,43 @@ const PeriodicTable = () => {
     }
   };
 
+  // Helper to get physical state at room temperature
+  const getPhysicalState = (element: Element): string => {
+    if (!element.boilingPoint || !element.meltingPoint) return "unknown";
+    
+    const roomTemp = 298.15; // 25°C in Kelvin
+    
+    if (element.meltingPoint > roomTemp) return "solid";
+    if (element.boilingPoint > roomTemp) return "liquid";
+    return "gas";
+  };
+
+  // Helper to determine if element is natural or synthetic
+  const isNaturalElement = (element: Element): boolean => {
+    // Elements with atomic numbers 1-94 are considered naturally occurring
+    // (though some of the higher ones are only found in trace amounts)
+    return element.atomicNumber <= 94;
+  };
+
+  // Helper to categorize discovery period
+  const getDiscoveryPeriod = (element: Element): string => {
+    if (!element.discoveryYear) return "ancient";
+    if (element.discoveryYear < 1800) return "pre1800";
+    if (element.discoveryYear < 1900) return "1800s";
+    if (element.discoveryYear < 2000) return "1900s";
+    return "2000s";
+  };
+
   const isElementFiltered = (element: Element): boolean => {
     // Check if any filters are applied
     const hasFilters =
       selectedCategories.length > 0 ||
       selectedBlocks.length > 0 ||
-      selectedPeriods.length > 0;
+      selectedPeriods.length > 0 ||
+      selectedStates.length > 0 ||
+      isNaturalOnly ||
+      selectedMassRange !== null ||
+      selectedDiscoveryPeriod !== null;
 
     // If no filters are applied, show all elements
     if (!hasFilters) return true;
@@ -124,9 +198,32 @@ const PeriodicTable = () => {
 
     const passesPeriod =
       selectedPeriods.length === 0 || selectedPeriods.includes(element.period);
+      
+    // New filter checks
+    const passesState =
+      selectedStates.length === 0 || 
+      selectedStates.includes(getPhysicalState(element));
+      
+    const passesNatural = 
+      !isNaturalOnly || isNaturalElement(element);
+      
+    const passesMassRange = 
+      !selectedMassRange ||
+      (element.atomicMass >= selectedMassRange[0] && 
+       element.atomicMass <= selectedMassRange[1]);
+       
+    const passesDiscoveryPeriod =
+      !selectedDiscoveryPeriod ||
+      getDiscoveryPeriod(element) === selectedDiscoveryPeriod;
 
     // Element must pass all active filter types
-    return passesCategory && passesBlock && passesPeriod;
+    return passesCategory && 
+           passesBlock && 
+           passesPeriod && 
+           passesState && 
+           passesNatural && 
+           passesMassRange && 
+           passesDiscoveryPeriod;
   };
 
   // Helper to get element position in the grid
@@ -274,6 +371,82 @@ const PeriodicTable = () => {
                       </button>
                     </div>
                   ))}
+                  
+                  {selectedStates.map((state) => (
+                    <div key={state} className="sidebar-filter-tag state-tag">
+                      <span className="filter-tag-text">
+                        {state === 'solid' && '🧱'}
+                        {state === 'liquid' && '💧'}
+                        {state === 'gas' && '💨'}
+                        {state.charAt(0).toUpperCase() + state.slice(1)}
+                      </span>
+                      <button
+                        className="remove-filter-btn"
+                        onClick={() => removeState(state)}
+                        aria-label={`Remove ${state} state filter`}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {isNaturalOnly && (
+                    <div className="sidebar-filter-tag natural-tag">
+                      <span className="filter-tag-text">
+                        <span className="filter-tag-emoji">🌱</span>
+                        Natural Elements Only
+                      </span>
+                      <button
+                        className="remove-filter-btn"
+                        onClick={removeNaturalFilter}
+                        aria-label="Remove natural elements filter"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                  
+                  {selectedMassRange && (
+                    <div className="sidebar-filter-tag mass-tag">
+                      <span className="filter-tag-text">
+                        <span className="filter-tag-emoji">⚖️</span>
+                        Mass: {selectedMassRange[0]}-{selectedMassRange[1]} u
+                      </span>
+                      <button
+                        className="remove-filter-btn"
+                        onClick={removeMassRangeFilter}
+                        aria-label="Remove mass range filter"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                  
+                  {selectedDiscoveryPeriod && (
+                    <div className="sidebar-filter-tag discovery-tag">
+                      <span className="filter-tag-text">
+                        <span className="filter-tag-emoji">
+                          {selectedDiscoveryPeriod === 'ancient' && '🏛️'}
+                          {selectedDiscoveryPeriod === 'pre1800' && '📜'}
+                          {selectedDiscoveryPeriod === '1800s' && '⚙️'}
+                          {selectedDiscoveryPeriod === '1900s' && '🔬'}
+                          {selectedDiscoveryPeriod === '2000s' && '🚀'}
+                        </span>
+                        {selectedDiscoveryPeriod === 'ancient' && 'Ancient Times'}
+                        {selectedDiscoveryPeriod === 'pre1800' && 'Pre-1800'}
+                        {selectedDiscoveryPeriod === '1800s' && '1800s'}
+                        {selectedDiscoveryPeriod === '1900s' && '1900s'}
+                        {selectedDiscoveryPeriod === '2000s' && 'Modern Era'}
+                      </span>
+                      <button
+                        className="remove-filter-btn"
+                        onClick={removeDiscoveryPeriodFilter}
+                        aria-label="Remove discovery period filter"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -286,6 +459,14 @@ const PeriodicTable = () => {
               onPeriodFilterChange={togglePeriod}
               selectedBlocks={selectedBlocks}
               selectedPeriods={selectedPeriods}
+              selectedStates={selectedStates}
+              onStateFilterChange={toggleState}
+              isNaturalOnly={isNaturalOnly}
+              onNaturalFilterChange={toggleNaturalOnly}
+              selectedMassRange={selectedMassRange}
+              onMassRangeChange={handleMassRangeChange}
+              selectedDiscoveryPeriod={selectedDiscoveryPeriod}
+              onDiscoveryPeriodChange={handleDiscoveryPeriodChange}
               displayMode="sidebar"
             />
           </div>
@@ -342,7 +523,11 @@ const PeriodicTable = () => {
     return (
       selectedCategories.length > 0 ||
       selectedBlocks.length > 0 ||
-      selectedPeriods.length > 0
+      selectedPeriods.length > 0 ||
+      selectedStates.length > 0 ||
+      isNaturalOnly ||
+      selectedMassRange !== null ||
+      selectedDiscoveryPeriod !== null
     );
   }
 };
