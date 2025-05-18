@@ -191,7 +191,7 @@
 
 /* Tooltip styling */
 .element-tooltip {
-  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+  font-family: 'Comic Neue', cursive;
   max-width: 300px;
   z-index: 10000 !important;
   pointer-events: auto !important;

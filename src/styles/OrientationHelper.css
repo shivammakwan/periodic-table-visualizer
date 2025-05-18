@@ -10,7 +10,7 @@
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease-in;
-  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+  font-family: 'Comic Neue', cursive;
 }
 
 .orientation-card {
