@@ -2,7 +2,15 @@
 
 An interactive, colorful, and educational periodic table of elements built with React and TypeScript.
 
-![Periodic Table Visualizer](https://placehold.co/600x400?text=Periodic+Table+Visualizer&font=montserrat)
+![Periodic Table Visualizer](https://periodic-table-visualizer.vercel.app/)
+
+## 🏆 Hackathon Project
+
+This project was developed for the [CodeCircuit.ai](https://www.codecircuit.ai/) hackathon, based on the prompt:
+
+> "Periodic table with hover info and filter by properties."
+
+The goal was to create an engaging, functional web application that makes exploring the periodic table fun and educational while demonstrating clean code and thoughtful UI/UX design.
 
 ## 🧪 Overview
 
@@ -16,7 +24,7 @@ This application provides a fun and engaging way to explore the chemical element
   - Category (Alkali Metals, Noble Gases, etc.)
   - Block (s, p, d, f)
   - Period (1-7)
-- **Responsive Design**: Optimized for desktop and mobile devices
+- **Responsive Design**: Optimized for desktop and mobile landscape modes
 - **Orientation Helper**: Smart detection prompts users to rotate to landscape mode on mobile
 - **Dark Mode Support**: Automatically switches based on system preferences
 - **Interactive Tooltips**: Quick information on hover
@@ -69,3 +77,5 @@ MIT
 ---
 
 Made with ⚗️ and 🔬 for the love of chemistry!
+
+*Submitted as an entry to the CodeCircuit.ai Hackathon, 2025*
