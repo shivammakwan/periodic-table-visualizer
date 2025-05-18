@@ -1,54 +1,71 @@
-# React + TypeScript + Vite
+# Periodic Table Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive, colorful, and educational periodic table of elements built with React and TypeScript.
 
-Currently, two official plugins are available:
+![Periodic Table Visualizer](https://placehold.co/600x400?text=Periodic+Table+Visualizer&font=montserrat)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧪 Overview
 
-## Expanding the ESLint configuration
+This application provides a fun and engaging way to explore the chemical elements. With a cartoonish design and intuitive interface, it makes learning about the periodic table enjoyable for students, educators, and science enthusiasts.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Complete Periodic Table**: All 118 elements with accurate scientific data
+- **Interactive Elements**: Hover over elements to view detailed information
+- **Filtering System**: Filter elements by:
+  - Category (Alkali Metals, Noble Gases, etc.)
+  - Block (s, p, d, f)
+  - Period (1-7)
+- **Responsive Design**: Optimized for desktop and mobile devices
+- **Orientation Helper**: Smart detection prompts users to rotate to landscape mode on mobile
+- **Dark Mode Support**: Automatically switches based on system preferences
+- **Interactive Tooltips**: Quick information on hover
+- **Detailed Element View**: Comprehensive information panel for each element
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🎨 Theme & Design
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The application features a playful, cartoonish design with:
+- Vibrant color coding for different element categories
+- Fun emoji representations for each element type
+- Animated UI elements for a lively experience
+- Comic-style typography and visual elements
+- Responsive layout that works on various screen sizes
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 👥 Target Audience
+
+- **Students**: Middle school to college students studying chemistry
+- **Educators**: Teachers looking for interactive tools to explain the periodic table
+- **Science Enthusiasts**: Anyone interested in chemistry and the elements
+- **Visual Learners**: People who benefit from visual and interactive educational content
+
+## 🚀 Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+4. Build for production:
+   ```
+   npm run build
+   ```
+
+## 💻 Technologies Used
+
+- **React**: UI library
+- **TypeScript**: Type-safe JavaScript
+- **Vite**: Build tool and development server
+- **CSS**: Custom styling without external UI libraries
+- **React-Tooltip**: For interactive tooltips
+
+## 📝 License
+
+MIT
+
+---
+
+Made with ⚗️ and 🔬 for the love of chemistry!
