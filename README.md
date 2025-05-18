@@ -2,7 +2,7 @@
 
 An interactive, colorful, and educational periodic table of elements built with React and TypeScript.
 
-![Periodic Table Visualizer](https://periodic-table-visualizer.vercel.app/)
+![Periodic Table Visualizer](./public/periodic-table-visualizer.png)
 
 ## 🏆 Hackathon Project
 
