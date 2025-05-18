@@ -34,6 +34,16 @@ This application provides a fun and engaging way to explore the chemical element
 - **Interactive Tooltips**: Quick information on hover
 - **Detailed Element View**: Comprehensive information panel for each element
 
+### 🔍 Filter Design Decisions
+
+Our filtering system was carefully designed to balance power with usability:
+
+- **Multi-selection Filters**: Category, Block, Period, and Physical State allow multiple selections to create flexible combinations.
+- **Single-selection Filters**: Atomic Mass Range and Discovery Period intentionally allow only one selection at a time:
+  - **Atomic Mass Range**: Single selection provides a clearer mental model than potentially overlapping ranges
+  - **Discovery Period**: Historical timelines are more naturally explored one era at a time
+  - This approach reduces complexity and creates more predictable, focused filtering results
+
 ## 🎨 Theme & Design
 
 The application features a playful, cartoonish design with:
