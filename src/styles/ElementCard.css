@@ -1,0 +1,316 @@
+:root {
+  /* These colors will be overridden by the ones in App.css */
+  --alkali-metal-color: #FF6B6B;
+  --alkaline-earth-metal-color: #FF9F80;
+  --transition-metal-color: #FFCC5C;
+  --post-transition-metal-color: #88D8B0;
+  --metalloid-color: #80CED7;
+  --nonmetal-color: #98DFEA;
+  --halogen-color: #CCABD8;
+  --noble-gas-color: #B3C2FF;
+  --lanthanide-color: #FFB7B2;
+  --actinide-color: #FFDAC1;
+  --default-color: #e0e0e0;
+  --rt-opacity: 1 !important;
+  --rt-transition-show-delay: 200ms;
+  --rt-transition-closing-delay: 50ms;
+}
+
+.element-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  overflow: visible;
+}
+
+.element-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
+}
+
+.element-card:hover {
+  transform: scale(1.15) rotate(3deg);
+  z-index: 10;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.6);
+}
+
+.element-card .atomic-number {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-weight: bold;
+  text-shadow: 0 0 1px rgba(0,0,0,0.7);
+}
+
+.element-card .symbol {
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  line-height: 1;
+}
+
+.element-card .name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.element-card .atomic-mass {
+  width: 100%;
+  line-height: 1;
+  margin-top: 1px;
+  font-weight: 500;
+}
+
+.element-card .category-emoji {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 11px;
+  opacity: 0.8;
+  text-shadow: 0 0 2px rgba(0,0,0,0.4);
+}
+
+.filtered {
+  opacity: 1;
+  animation: bounce 0.5s ease infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-5px); }
+}
+
+.dimmed {
+  opacity: 0.4;
+  filter: grayscale(70%);
+}
+
+.element-details {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -100px;
+  width: 250px;
+  background-color: white;
+  color: #333;
+  border-radius: 16px;
+  padding: 16px;
+  border: 3px solid var(--card-border, #333);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  animation: pop-in 0.3s cubic-bezier(.17,.67,.35,1.54);
+}
+
+.element-details h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--primary-color, #FF6B6B);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  border-bottom: 2px dotted var(--card-border, #333);
+  padding-bottom: 5px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.detail-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.detail-value {
+  text-align: right;
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.5); }
+  70% { opacity: 1; transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-color-scheme: dark) {
+  .element-details {
+    background-color: #424769;
+    color: #F9F3CC;
+    border-color: #333;
+  }
+  
+  .element-details h3 {
+    color: var(--accent-color, #FFE66D);
+    border-bottom-color: #666;
+  }
+  
+  .detail-label {
+    color: #ccc;
+  }
+  
+  .detail-value {
+    background-color: #2D3250;
+    color: #F9F3CC;
+    border-color: #666;
+  }
+
+  .atomic-number, .atomic-mass {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Right side elements will show popup on the left */
+.element-position:nth-child(n+14) .element-details {
+  left: auto;
+  right: -100px;
+}
+
+.right-side .element-details {
+  left: auto;
+  right: 0;
+}
+
+.left-side .element-details {
+  left: 0;
+  right: auto;
+}
+
+/* Tooltip styling */
+.element-tooltip {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+  max-width: 300px;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+.element-details-wrapper {
+  padding: 14px;
+  color: #333;
+}
+
+.element-details-wrapper h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--primary-color, #FF6B6B);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  border-bottom: 2px dotted var(--card-border, #333);
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+/* Dark mode tooltip */
+@media (prefers-color-scheme: dark) {
+  .element-tooltip {
+    background-color: #424769 !important;
+    color: #F9F3CC !important;
+  }
+}
+
+/* Specific improvements for landscape mobile */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .element-tooltip {
+    max-width: 250px;
+  }
+  
+  .element-details-wrapper h3 {
+    font-size: 16px;
+  }
+  
+  .detail-row {
+    font-size: 12px;
+  }
+}
+
+/* Small landscape devices */
+@media screen and (max-width: 700px) and (max-height: 400px) and (orientation: landscape) {
+  .element-tooltip {
+    max-width: 200px;
+  }
+  
+  .element-details-wrapper h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .detail-row {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+}
+
+/* Landscape adjustments */
+@media screen and (orientation: landscape) {
+  .element-card:hover {
+    transform: scale(1.1) rotate(2deg);
+  }
+  
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-3px); }
+  }
+  
+  /* Mobile landscape specific card styling */
+  @media screen and (max-width: 900px) {
+    .element-card {
+      width: 52px;
+      height: 52px;
+      padding: 3px;
+      border-width: 2px;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+    }
+    
+    .element-card .symbol {
+      font-size: 17px;
+    }
+    
+    .element-card .name,
+    .element-card .atomic-mass {
+      font-size: 7px;
+      line-height: 1.1;
+    }
+    
+    .element-card .atomic-number {
+      font-size: 7px;
+      top: 1px;
+      left: 3px;
+    }
+    
+    .element-card .category-emoji {
+      font-size: 9px;
+      bottom: 1px;
+      right: 3px;
+    }
+    
+    /* Adjust tooltip for smaller screens */
+    .element-tooltip {
+      max-width: 230px;
+    }
+    
+    .element-details-wrapper h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    
+    .detail-row {
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+  }
+} 

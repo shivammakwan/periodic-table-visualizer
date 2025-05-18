@@ -1,0 +1,137 @@
+.legend {
+  background-color: white;
+  border-radius: 12px;
+  padding: 10px;
+  border: 3px solid var(--card-border, #333);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.legend h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--primary-color, #FF6B6B);
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  border-bottom: 2px dotted var(--card-border, #333);
+  padding-bottom: 5px;
+}
+
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.legend-item:hover {
+  transform: translateX(5px);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.color-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  margin-right: 8px;
+  border: 2px solid var(--card-border, #333);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.legend-emoji {
+  font-size: 12px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.legend-label {
+  color: #333;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Responsive adjustments for mobile layout */
+@media (max-width: 768px) {
+  .legend-items {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+  }
+  
+  .legend-item {
+    min-width: 150px;
+    max-width: 180px;
+  }
+  
+  .legend-item:hover {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .legend {
+    background-color: #424769;
+  }
+  
+  .legend h3 {
+    color: var(--accent-color, #FFE66D);
+    border-bottom-color: #666;
+  }
+  
+  .legend-label {
+    color: #F9F3CC;
+  }
+  
+  .legend-item {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .legend-item:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.legend-title-bubble {
+  display: inline-block;
+  background-color: var(--secondary-color, #4ECDC4);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px;
+  margin: 0 4px;
+  animation: float 3s ease-in-out infinite;
+  border: 2px solid var(--card-border, #333);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  font-size: 12px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+} 
